@@ -118,6 +118,13 @@ void mh_free(void* ptr) {
   mh_heap_free(heap, ptr);
 }
 
+int64_t mh_get_id(void* ptr) {
+  check(ptr != NULL, "getting id of null\n");
+  struct smalloc_hdr *shdr = USER_TO_HEADER(ptr);
+  check(smalloc_check_magic(shdr), "magic header is not correct\n");
+  return shdr->pool_id;
+}
+
 /* All the functions that relate to mh_heap. */
 
 void mh_heap_init(int64_t id, struct mh_heap* heap) {

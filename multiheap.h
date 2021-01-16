@@ -62,6 +62,7 @@ void *mh_malloc(int64_t id, size_t size);
 void *mh_calloc(int64_t id, size_t nmemb, size_t size);
 void *mh_realloc(int64_t id, void* ptr, size_t size);
 void mh_free(void* ptr);
+int64_t mh_get_id(void* ptr);
 
 /* mh_heap functions */
 void mh_heap_init(int64_t id, struct mh_heap* heap);
