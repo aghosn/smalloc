@@ -25,7 +25,7 @@ void *sm_realloc_pool_i(struct smalloc_pool *spool, void *p, size_t n, int nomov
 		return NULL;
 	}
 
-	if (!p) return sm_malloc_pool(spool, n);
+	if (!p) return sm_malloc_pool(0, spool, n);
 	if (!n && p) {
 		sm_free_pool(spool, p);
 		return NULL;
@@ -119,7 +119,7 @@ allocblock:
 		errno = ERANGE;
 		return NULL;
 	}
-	r = sm_malloc_pool(spool, n);
+	r = sm_malloc_pool(0, spool, n);
 	if (!r) return NULL;
 	memcpy(r, p, usz);
 	sm_free_pool(spool, p);

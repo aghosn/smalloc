@@ -61,5 +61,10 @@ int smalloc_is_alloc(struct smalloc_pool *spool, struct smalloc_hdr *shdr)
 	if (shdr->usz > shdr->rsz) return 0;
 	if (shdr->rsz % HEADER_SZ) return 0;
 	if (!smalloc_valid_tag(shdr)) return 0;
+  if (!smalloc_check_magic(shdr)) return 0;
 	return 1;
+}
+
+int smalloc_check_magic(struct smalloc_hdr* shdr) {
+  return shdr->sm_magic == SM_MAGIC;
 }

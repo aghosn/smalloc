@@ -8,7 +8,7 @@
 
 void *sm_zalloc_pool(struct smalloc_pool *spool, size_t n)
 {
-	void *r = sm_malloc_pool(spool, n);
+	void *r = sm_malloc_pool(0, spool, n);
 	if (r) memset(r, 0, n);
 	return r;
 }

@@ -6,7 +6,7 @@
 
 #include "smalloc_i.h"
 
-void *sm_malloc_pool(struct smalloc_pool *spool, size_t n)
+void *sm_malloc_pool(int64_t id, struct smalloc_pool *spool, size_t n)
 {
 	struct smalloc_hdr *basehdr, *shdr, *dhdr;
 	char *s;
@@ -66,6 +66,8 @@ again:	if (!smalloc_verify_pool(spool)) {
 outfound:		if (found) {
 				uintptr_t tag;
 				/* allocate and return this block */
+        shdr->sm_magic = SM_MAGIC; 
+        shdr->pool_id = id;
 				shdr->rsz = x;
 				shdr->usz = n;
 				shdr->tag = tag = smalloc_mktag(shdr);
@@ -104,5 +106,5 @@ oom:	if (spool->oomfn) {
 
 void *sm_malloc(size_t n)
 {
-	return sm_malloc_pool(&smalloc_curr_pool, n);
+	return sm_malloc_pool(0, &smalloc_curr_pool, n);
 }

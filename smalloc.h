@@ -46,7 +46,7 @@ int sm_release_default_pool(void);
 
 /* Use these with multiple pools which you control */
 
-void *sm_malloc_pool(struct smalloc_pool *, size_t);
+void *sm_malloc_pool(int64_t id, struct smalloc_pool *, size_t);
 void *sm_zalloc_pool(struct smalloc_pool *, size_t);
 void sm_free_pool(struct smalloc_pool *, void *);
 
