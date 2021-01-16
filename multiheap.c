@@ -180,7 +180,6 @@ mh_arena* mh_new_arena(mh_heap* parent, size_t pool_size) {
   arena->num_elem = 0;
   arena->pool.pool_size = pool_size;
   arena->pool.pool = mmap(NULL, pool_size, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0); 
-  //TODO(aghosn) register growth
   check_null(arena->pool.pool);
   arena->pool.do_zero = 1;
   arena->pool.oomfn = NULL;
@@ -196,5 +195,10 @@ mh_arena* mh_new_arena(mh_heap* parent, size_t pool_size) {
     prev->next = arena;
   }
   parent->lsize++;
+
+  /* registering the arena */
+  if (register_growth != NULL) {
+    register_growth(parent->pool_id, arena->pool.pool, pool_size);
+  }
   return arena;
 }
