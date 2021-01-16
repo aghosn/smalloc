@@ -51,6 +51,10 @@ struct mh_allocator {
 
 extern struct mh_allocator mhallocator;
 
+/* Hooks for litterbox */
+extern void (*register_id)(const char*, int);
+extern void (*register_growth)(int, void*, size_t);
+
 /* mh_allocator functions */
 void mh_init_allocator();
 int64_t mh_new_id();

@@ -11,6 +11,10 @@
 /* The global allocator. */
 struct mh_allocator mhallocator;
 
+/* The hooks for litterbox. */
+void (*register_id)(const char*, int) = NULL;
+void (*register_growth)(int, void*, size_t) = NULL;
+
 static void check_null(void* ptr) {
   if (ptr == NULL) {
     fprintf(stderr, "ptr is NULL\n");
@@ -36,7 +40,7 @@ void mh_init_allocator() {
   check_null(mhallocator.mheaps); 
 
   /* Create the default pool.*/
-  int64_t id = mh_new_id();
+  int64_t id = mh_new_id("mhdefault");
   if (id != 0) {
     fprintf(stderr, "Unable to get 0 as the default id.\n");
     exit(33);
@@ -45,7 +49,7 @@ void mh_init_allocator() {
 
 
 //TODO(aghosn) get the name of the pool later on.
-int64_t mh_new_id() {
+int64_t mh_new_id(const char* name) {
   int64_t id = mhallocator.next_id++;
   /* we ran out of space in the mheaps. */
   if (mhallocator.mhsize <= mhallocator.next_id) {
@@ -57,6 +61,9 @@ int64_t mh_new_id() {
   mhallocator.mheaps[id] = malloc(sizeof(mh_heap));
   check_null(mhallocator.mheaps[id]);
   mh_heap_init(id, mhallocator.mheaps[id]);
+  if (register_id != NULL) {
+    register_id(name, id);
+  }
   return id;
 }
 
