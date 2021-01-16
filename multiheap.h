@@ -57,7 +57,7 @@ extern void (*register_growth)(int, void*, size_t);
 
 /* mh_allocator functions */
 void mh_init_allocator();
-int64_t mh_new_id();
+int64_t mh_new_id(const char*);
 void *mh_malloc(int64_t id, size_t size);
 void *mh_calloc(int64_t id, size_t nmemb, size_t size);
 void *mh_realloc(int64_t id, void* ptr, size_t size);
